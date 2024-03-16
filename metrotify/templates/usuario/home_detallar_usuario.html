@@ -1,0 +1,19 @@
+<!-- head para PC -->
+{% extends "usuario/base_usuario.html" %}
+
+{% load  static %}
+
+{% block content %}
+{% include './modalMessagePositivo.html' %}
+<section  class=".container-fluid">
+    <h6> Perfil de  {{usuarioSearch.name}} es {{usuarioSearch.type}}</h6>
+    <section class=".container-fluid">
+        {% if usuarioSearch.type == 'listener'%}
+            {% include './contenedorHome.html' %}
+        {% else %}
+            {% include './contenedorHomeMusico.html' %}
+        {% endif %}
+    </section>
+</section>
+
+{% endblock content %}

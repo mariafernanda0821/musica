@@ -1,0 +1,47 @@
+<!-- head para PC -->
+{% extends "auth/base_auth.html" %}
+
+{% load static %}
+
+{% block panel-content %}
+
+<section class="container-fluid d-flex flex-column justify-content-center align-items-center" style="height: 100vh;" >
+    <section class="container d-flex flex-column justify-content-center align-items-center border border-success p-2 border-opacity-10">
+        <form action="" method="POST" class="cell"> {% csrf_token %}
+        <div class="row">
+                <h1>Iniciar Session</h1>
+        </div>
+        <div class="row">
+           
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Correo Electronico</label>
+               <!-- <input type="text" class="form-control" id="coprreo" name="correo" placeholder="name@example.com"> -->
+                {{form.email}}
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Contrase;a</label>
+                {{form.password}}
+                <!-- <input type="password" class="form-control" id="password" nam="password" placeholder="name@example.com"> -->
+            </div>
+            <div class="mb-3">
+
+                <button type="submit" class="btn btn-secondary btn-lg">Iniciar Session</button>
+            </div> 
+            <div class="text-center">
+                <a class="small" href="{% url 'usuario_app:auth_registrar' %}">Crear cuenta!</a>
+            </div>
+        </div>
+        </form>
+     
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %} 
+    </section>
+</section>
+{% endblock panel-content %}

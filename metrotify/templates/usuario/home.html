@@ -1,0 +1,15 @@
+<!-- head para PC -->
+{% extends "usuario/base_usuario.html" %}
+
+{% load  static %}
+
+{% block content %}
+{% include './modalMessagePositivo.html' %}
+<section  class=".container-fluid">
+    <h6> Usuario  {{usuario.id}}</h6>
+    <section class=".container-fluid">
+        {% include './contenedorHome.html' %}
+    </section>
+</section>
+
+{% endblock content %}

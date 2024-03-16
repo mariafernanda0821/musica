@@ -1,0 +1,206 @@
+<section class="d-flex flex-column justify-content-center align-items-center border border-2 rounded-1" style="width: 80%; margin: auto;">
+
+    <section class="container-fluid mt-4 d-flex justify-content-evenly" style="width: 100%;">
+        <button type="button" class="btn btn-secondary btn-lg" onclick="mostrarContenido('collapseAlbum')">Álbumes </button>
+        <button type="button" class="btn btn-secondary btn-lg" onclick="mostrarContenido('collapseTopCancion')">Top 10 de Canciones</button>
+        <button type="button" class="btn btn-secondary btn-lg" onclick="mostrarContenido('collapsePlayList')">Playlist Creados</button>
+        <button type="button" class="btn btn-secondary btn-lg" onclick="mostrarContenido('collapseReproducciones')">Cantidad de Reproducciones</button>
+    </section>
+  
+    <section id='collapseAlbum' class="container-fluid mt-3 mb-3">
+        <div class="row row-cols-3">
+            {% if albunesArray %}
+                {% for album in albunesArray %}
+                    <div class="col  mt-4">
+                        <div class="card h-100">
+                            <div class="card-body d-flex flex-column">
+                              <i class="bi bi-music-note-beamed"></i>
+                                <h5 class="card-title">{{ album.name }}</h5>
+                                <p class="card-text flex-grow-1">{{ album.description}}</p>
+                                <p class="card-text flex-grow-1">Publicado {{ album.published}} -  Genero {{album.genre}}</p>
+                                <p class="card-text flex-grow-1">Genero {{album.genre}}</p>
+                                <div class="d-flex justify-content-between mt-auto">
+                                    <a href="#" class="btn btn-primary">Ver más</a>
+                                    <button type="button" class="btn btn-outline-primary"><i class="bi bi-heart"></i> Like</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col">
+                    <h3 style="color: red;">No hay playlists disponibles</h3>
+                </div>
+            {% endif %}
+        </div>
+   </section>
+    
+    <section id="collapseTopCancion" class="container-fluid mt-3 mb-3" style="display: none;">
+      <h2>Canciones Favoritas</h2>
+      <p>Aquí puedes mostrar las canciones favoritas</p>
+    </section>
+  
+    <section id="collapsePlayList" class="container-fluid mt-3 mb-3" style="display: none;">
+        <div class="row row-cols-3">
+            {% if playlistArray %}
+                {% for playlist in playlistArray %}
+                    <div class="col  mt-4">
+                        <div class="card h-100">
+                            <div class="card-body d-flex flex-column">
+                              <i class="bi bi-music-note-beamed"></i>
+                                <h5 class="card-title">{{ playlist.name }}</h5>
+                                <p class="card-text flex-grow-1">{{ playlist.description}}</p>
+                                <a href="#" class="btn btn-primary mt-auto">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col">
+                    <h3 style="color: red;">No hay playlists disponibles</h3>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+  
+    <section id="collapseReproducciones" class="container-fluid mt-3 mb-3" style="display: none;">
+      <h2>Cantidad de Reproducciones</h2>
+      <p>Aquí puedes mostrar la cantidad de reproducciones</p>
+    </section>
+  </section>
+  
+  <script>
+    // Función para mostrar el contenido de una sección y ocultar las demás
+    function mostrarContenido(id) {
+      // Obtener todas las secciones
+      var secciones = document.querySelectorAll('section[id^="collapse"]');
+      
+      // Iterar sobre las secciones y mostrar u ocultar según corresponda
+      secciones.forEach(function(seccion) {
+        if (seccion.id === id) {
+          seccion.style.display = 'block';
+        } else {
+          seccion.style.display = 'none';
+        }
+      });
+    }
+  </script>
+  
+
+<!-- <section class="d-flex flex-column justify-content-center align-items-center border border-2 rounded-1" style="width: 80%; margin: auto;">
+
+  <section class="container-fluid mt-4 d-flex justify-content-evenly" style="width: 100%;">
+      <button type="button" class="btn btn-secondary btn-lg"
+        data-bs-toggle="collapse" data-bs-target="#collapseAlbum" aria-expanded="false" aria-controls="collapseAlbum"
+      >Álbumes </button>
+      <button type="button" class="btn btn-secondary btn-lg"
+      data-bs-toggle="collapse" data-bs-target="#collapseTopCancion" aria-expanded="false" aria-controls="collapseTopCancion"
+      >Top 10 de Canciones</button>
+      <button type="button" class="btn btn-secondary btn-lg"
+      data-bs-toggle="collapse" data-bs-target="#collapsePlayList" aria-expanded="false" aria-controls="collapsePlayList"
+      >Playlist Creados</button>
+      <button type="button" class="btn btn-secondary btn-lg"
+      data-bs-toggle="collapse" data-bs-target="#collapseReproduciones" aria-expanded="false" aria-controls="collapseReproduciones"
+      >Cantidad de Reproduciones</button>
+  </section>
+
+  <section id='collapseAlbum' class="collapse container-fluid mt-3 mb-3">
+    <div class="row row-cols-3">
+        {% if playlistArray %}
+            {% for playlist in playlistArray %}
+                <div class="col  mt-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                          <i class="bi bi-music-note-beamed"></i>
+                            <h5 class="card-title">{{ playlist.name }}</h5>
+                            <p class="card-text flex-grow-1">{{ playlist.description}}</p>
+                            <a href="#" class="btn btn-primary mt-auto">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col">
+                <h3 style="color: red;">No hay playlists disponibles</h3>
+            </div>
+        {% endif %}
+    </div>
+ </section>
+  
+    <section id="collapseTopCancion" class="collapse">
+
+        <div >
+            <h2>Canciones Favoritas</h2>
+            <p>Aquí puedes mostrar las canciones favoritas</p>
+        </div>
+
+    </section>
+    <section id="collapsePlayList" class="collapse">
+        <div>
+            <h2>Playlist Creados</h2>
+            <p>Aquí puedes mostrar las playlists creadas</p>
+        </div>
+
+    </section>
+        <section id="collapsePlayList" class="collapse">
+            <div>
+                <h2>Playlist Creados</h2>
+                <p>Aquí puedes mostrar las playlists creadas</p>
+            </div>
+
+        </section>
+</section>
+{% block js %}
+<!-- <script>
+  $(document).ready(function() {
+    // Ocultar todos los contenidos al principio
+    $('#content-section div').hide();
+
+    // Mostrar el contenido correspondiente cuando se hace clic en un botón
+    $('#btn-albumes').click(function() {
+      $('#content-section div').hide();
+      $('#albumes-content').show();
+    });
+
+    $('#btn-canciones').click(function() {
+      $('#content-section div').hide();
+      $('#canciones-content').show();
+    });
+
+    $('#btn-playlist').click(function() {
+      $('#content-section div').hide();
+      $('#playlist-content').show();
+    });
+  });
+</script>
+
+{% endblock js %} -->
+
+<!-- 
+<section class="d-flex flex-column justify-content-center align-items-center border border-2 rounded-1 " style="width: 80%; margin: auto;">
+
+        <section class=".container-fluid mt-4 d-flex justify-content-evenly" style="width: 100%;">
+            <button type="button" class="btn btn-secondary btn-lg">Álbumes Creados</button>
+            <button type="button" class="btn btn-secondary btn-lg">Canciones Favoritos</button>
+            <button type="button" class="btn btn-secondary btn-lg">Playlist creados </button>
+        </section>
+        <section class=".container-fluid mt-3 mb-3 d-flex justify-content-evenly" style="width: 100%;">
+          {% if playlistArray %}
+              {% for playlist in playlistArray %}
+                  
+                  <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{playlist.name}}</h5>
+                      <p class="card-text">{{playlist.description}}</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                  </div>
+              {% endfor %}
+      {% else %}
+          <h3 style="color:red"> No hay playlists disponibles </h3>
+      {% endif %}
+        </section>
+    </section>
+</section> --> -->

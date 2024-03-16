@@ -1,0 +1,9 @@
+{% if users %}
+    <ul class="list-group">
+        {% for user in users %}
+            <li class="list-group-item">{{ user.name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No se encontraron usuarios.</p>
+{% endif %}

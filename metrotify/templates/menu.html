@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load  static %}
+{% block panel-content %} 
+
+<section>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Metrotify <i class="bi bi-music-note-beamed"></i></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if user.type == 'listener'%}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center align-items-center">
+          <li class="nav-item">
+            <button type="button" class="btn btn-outline-dark m-2">Crear Playlist</button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-outline-dark m-2">Indicadores</button>
+          </li>
+          <li class="nav-item">
+            <h5>
+              Bienvenido {{usuario.name}}
+            </h5>
+          </li>
+          
+        </ul>
+        {% else %}
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center align-items-center">
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-dark m-2">Crear Album</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-dark m-2">Crear Playlist</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-dark m-2">Indicadores</button>
+            </li>
+            <li class="nav-item">
+              <h5>
+                Bienvenido {{usuario.name}}
+              </h5>
+              <!-- <button type="button" class="btn btn-outline-dark m-2">{{usuario.nombre}}</button> -->
+            </li>
+            
+          </ul>
+        {% endif %}
+        <!-- action='{% url "usuario_app:search_users" %}' -->
+        <form  id="buscar-usuario-form" class="d-flex" id="search-form">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-input">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <!-- Resultados de búsqueda -->
+        <div class="mt-3" id="search-results"></div>
+        <!-- <i class="bi bi-person-circle m-3" style="font-size: 2rem; color: cornflowerblue;"></i> -->
+        
+        <a href="{% url 'usuario_app:usuario_update' usuario.pk %}" class="button warning">
+          
+          <i class="bi bi-person-circle m-3" style="font-size: 2rem; color: cornflowerblue;"></i>
+        </a>
+        <a href="{% url 'usuario_app:usuario-logout' %}" class="button warning">
+          
+          <i class="bi bi-box-arrow-right m-3" style="font-size: 2rem; color: cornflowerblue;"></i>
+          
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+  <section>
+    {% block content %} 
+    {% endblock content %} 
+   
+  </section>
+</section>
+{% endblock panel-content %} 
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+      $('#buscar-usuario-form').on('input', function() {
+        console.log("estoy aqui a ver")
+          var query = $(this).val();
+          if (query.length >= 3) { // Realiza la búsqueda solo si hay al menos 3 caracteres
+            console.log(query)
+            $.ajax({
+                  url: '{% url "usuario_app:search_users" %}', // URL de la vista de búsqueda
+                  method: 'GET',
+                  data: { query: query },
+                  success: function(data) {
+                      $('#search-results').html(data); // Mostrar los resultados de la búsqueda
+                  }
+              });
+          }
+      });
+  });
+</script>
+  <!-- <script>
+    $(document).ready(function() {
+    $('#search-input').keyup(function() {
+        var consulta = $(this).val();
+
+        // Conexión a MongoDB (opción 2.2)
+        var URI="mongodb://metrotifydb:fw4MRwLQ4hoXONg5@ac-znymkzd-shard-00-00.ysigne7.mongodb.net:27017,ac-znymkzd-shard-00-01.ysigne7.mongodb.net:27017,ac-znymkzd-shard-00-02.ysigne7.mongodb.net:27017/?ssl=true&replicaSet=atlas-14cc8j-shard-0&authSource=admin&retryWrites=true&w=majority&appName=metrotify"
+      
+        var client = pymongo.MongoClient("URI")
+
+        //var client = new MongoClient(URI);
+        var db = client['metrotify'];
+        var coleccion_usuarios = db['usuarios'];
+
+        // Búsqueda en la colección de usuarios
+        usuarios = coleccion_usuarios.find({'nombre': {'$regex': consulta}}, {'nombre': 1}).limit(5).toArray(function(err, usuarios) {
+            if (err) {
+                console.error(err);
+                return[];
+            }
+            return usuarios
+        })
+      
+        console.log("usuarioa a ver " )
+        console.log("usuarios " )
+       // Suponiendo que 'usuarios' es la lista de usuarios obtenida de la base de datos
+
+            const resultadosContainer = document.getElementById('search-results-container');
+
+      // Limpiamos los resultados anteriores
+      resultadosContainer.innerHTML = '';
+
+      // Creamos una lista ul para los usuarios
+      const listaUsuarios = document.createElement('ul');
+
+      // Iteramos sobre la lista de usuarios y creamos elementos de lista li para cada uno
+      usuarios.forEach(function(usuario) {
+          const usuarioLi = document.createElement('li');
+          usuarioLi.textContent = usuario.nombre; // Suponiendo que el nombre del usuario está en la propiedad 'nombre'
+          listaUsuarios.appendChild(usuarioLi);
+      });
+      // Agregamos la lista de usuarios al contenedor de resultados de búsqueda
+      resultadosContainer.appendChild(listaUsuarios);
+      });
+         // Después de la línea donde manejas los resultados de la búsqueda en el código JavaScript
+       
+
+      });
+</script> -->
+
+
+{% endblock js %}
+
+
